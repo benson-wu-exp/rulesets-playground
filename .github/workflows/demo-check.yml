@@ -1,0 +1,21 @@
+name: Demo checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  readme-check:
+    name: readme-check
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check README title
+        run: |
+          if grep -q '^# rulesets-playground$' README.md; then
+            echo 'README title is valid.'
+          else
+            echo '::error::README must contain the title: # rulesets-playground'
+            exit 1
+          fi
